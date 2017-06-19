@@ -1,5 +1,10 @@
-var express = require('express');
-var router = express.Router();
+var
+express = require('express'),
+router = express.Router(),
+crypto = require('crypto');
+
+// Md5 key
+var key = 'express_jackdizhu';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -43,6 +48,9 @@ router.post('/register', function(req, res, next) {
     res.render('register', { title: '注册',msg: req.session.msg,username: uname});
   }
 
+  decipher = crypto.createHash('md5',key);
+  upwd = decipher.update(upwd).digest('hex');
+
   User.findOne({name: uname},function(err,doc){
       if(err){
           req.session.msg = '注册失败 01';
@@ -85,6 +93,9 @@ router.post('/login', function(req, res, next) {
 
   var uname = req.body.username;
   var upwd = req.body.pwd;
+
+  decipher = crypto.createHash('md5',key);
+  upwd = decipher.update(upwd).digest('hex');
 
   User.findOne({name: uname,password: upwd},function(err,doc){
       if(err){
