@@ -1,3 +1,9 @@
-  <script type="text/javascript" src="/dist/index.js"></script>
-  </body>
-</html>
+  <input type="hidden" name="msg" id="msg"> value="<%= msg %>" />
+  <script type="text/javascript" src="/dist/js/index.js"></script>
+  <script type="text/javascript">
+      // var msg = document.getElementById('msg').value;
+      var msg = '<%= msg %>';
+      if(msg){
+        layer.msg(msg);
+      }
+  </script>

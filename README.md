@@ -5,7 +5,14 @@ express app -e
 
 set DEBUG=app & npm start
 
+// 启动 mongodb
 mongod.exe --dbpath G:\web\mongodb\data\db
+
+// 样式调试启动
+node gulpFile_app2.js
+
+// express 服务器调试启动
+supervisor ./app/bin/www
 
 // /register 路由
 var _path = req.params;
