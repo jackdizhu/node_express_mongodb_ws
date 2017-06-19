@@ -1,0 +1,22 @@
+<%include ./com/head.ejs %>
+  </head>
+  <body>
+    <%include ./com/header.ejs %>
+
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <form method="post" action="/login">
+        <label>
+          <span>用户名: </span>
+          <input type="text" name="username" value="" />
+        </label>
+        <label>
+          <span>密  码: </span>
+          <input type="text" name="pwd" value="" />
+        </label>
+        <!-- <a href="javascript:;" class="btn">注册</a> -->
+        <button>登录</button>
+    </form>
+
+    <%include ./com/footer.ejs %>
+<%include ./com/foot.ejs %>
