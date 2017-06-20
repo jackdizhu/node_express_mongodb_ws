@@ -2,7 +2,8 @@ var
 express = require('express'),
 router = express.Router(),
 crypto = require('crypto'),
-log = require('../com/log.js');
+log = require('../com/log.js'),
+token = require('../com/token.js');
 
 // 返回模板 对象数据
 var _render = {};
@@ -12,10 +13,6 @@ var key = 'express_jackdizhu';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // 打印错误
-  log({
-    req: req
-  });
   if(req.session.user){
       _render = {
           title: '首页',
@@ -157,10 +154,18 @@ router.post('/login', function(req, res, next) {
           res.render('login', _render);
       }else if(doc){
           req.session.user = doc;
+          var tok = {
+              username: uname
+          };
+
+          var _token = token.createToken(tok);
+          // 设置 cookie token
+          res.cookie('token', _token);
           _render = {
               title: '首页',
               msg: '登录成功!',
-              username: uname
+              username: uname,
+              token: _token
           };
           req.session.msg = '登录成功!';
           res.render('index', _render);

@@ -10,11 +10,11 @@ var users = require('./routes/users');
 
 var app = express();
 var session = require('express-session');
+var token = require('../app/com/token.js');
 
 var mongoose = require('mongoose');
 global.dbHandel = require('./database/dbHandel');
 global.db = mongoose.connect("mongodb://127.0.0.1:27017/nodedb");
-
 
 
 // view engine setup
@@ -22,7 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -48,6 +48,25 @@ app.use(function(req,res,next){
     next();  //中间件传递
 });
 
+// token 验证
+app.use(function(req,res,next){
+    var _token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
+    var path = req.originalUrl;
+    console.log(_token);
+    if(!_token || !token.checkToken(_token)){
+        req.session.token = 'untoken';
+        // token 验证失败 只能访问登录注册
+        if ((path != "/login") && (path != "/register")) {
+            res.redirect("/login");
+        }else{
+            next();  //中间件传递
+        }
+    }else{
+        next();  //中间件传递
+    }
+
+});
+
 // 路由
 app.use('/', index);
 // app.use('/users', users);
@@ -71,6 +90,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;
