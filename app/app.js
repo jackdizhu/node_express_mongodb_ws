@@ -50,7 +50,7 @@ app.use(function(req,res,next){
 
 // 路由
 app.use('/', index);
-app.use('/users', users);
+// app.use('/users', users);
 app.use('/login', index);
 app.use('/register', index);
 

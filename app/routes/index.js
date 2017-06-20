@@ -1,37 +1,59 @@
 var
 express = require('express'),
 router = express.Router(),
-crypto = require('crypto');
+crypto = require('crypto'),
+log = require('../com/log.js');
+
+// 返回模板 对象数据
+var _render = {};
 
 // Md5 key
 var key = 'express_jackdizhu';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  req.session.msg = '';
+  // 打印错误
+  log({
+    req: req
+  });
   if(req.session.user){
-      res.render('index', { title: '首页',msg: req.session.msg,username: req.session.user.name});
+      _render = {
+          title: '首页',
+          msg: '首页',
+          username: req.session.user.name
+      };
+      res.render('index', _render);
   }else{
-      res.render('login', { title: 'login',msg: req.session.msg,username: ''});
+      _render = {
+          title: 'login',
+          msg: '',
+          username: ''
+      };
+      res.render('login', _render);
   }
 });
 
 /* GET login page. */
 router.get('/login', function(req, res, next) {
-  req.session.msg = '';
-  var User = global.dbHandel.getModel('user');
-  res.render('login', { title: 'login',msg: req.session.msg,username: ''});
+  _render = {
+      title: 'login',
+      msg: '',
+      username: ''
+  };
+  res.render('login', _render);
 });
 
 /* GET register page. */
 router.get('/register', function(req, res, next) {
-  req.session.msg = '';
-  var User = global.dbHandel.getModel('user');
-  res.render('register', { title: 'register',msg: req.session.msg,username: ''});
+  _render = {
+      title: 'register',
+      msg: '',
+      username: ''
+  };
+  res.render('register', _render);
 });
-/* GET register page. */
+/* POST register page. */
 router.post('/register', function(req, res, next) {
-  req.session.msg = '';
   var User = global.dbHandel.getModel('user');
 
   // ?t=00 get参数
@@ -44,8 +66,12 @@ router.post('/register', function(req, res, next) {
   var upwd2 = req.body.pwd2;
 
   if(upwd != upwd2){
-    req.session.msg = '注册失败 04';
-    res.render('register', { title: '注册',msg: req.session.msg,username: uname});
+    _render = {
+        title: '注册',
+        msg: '注册失败 04',
+        username: uname
+    };
+    res.render('register', _render);
   }
 
   decipher = crypto.createHash('md5',key);
@@ -53,11 +79,23 @@ router.post('/register', function(req, res, next) {
 
   User.findOne({name: uname},function(err,doc){
       if(err){
-          req.session.msg = '注册失败 01';
-          res.render('register', { title: '注册',msg: req.session.msg,username: uname});
+          _render = {
+              title: '注册',
+              msg: '注册失败 01',
+              username: uname
+          };
+          // 打印错误
+          log({
+            req: req,err: err
+          });
+          res.render('register', _render);
       }else if(doc){
-          req.session.msg = '用户名已存在 02';
-          res.render('register', { title: '注册',msg: req.session.msg,username: ''});
+          _render = {
+              title: '注册',
+              msg: '用户名已存在 02',
+              username: ''
+          };
+          res.render('register', _render);
       }else{
           User.create(
               {
@@ -66,24 +104,32 @@ router.post('/register', function(req, res, next) {
               },
               function(err,doc){
                   if (err) {
-                      req.session.msg = '注册失败 03';
-                      res.render('register', { title: '注册',msg: req.session.msg,username: uname});
-                      console.log(err);
+                      _render = {
+                          title: '注册',
+                          msg: '注册失败 03',
+                          username: uname
+                      };
+                      res.render('register', _render);
+                      // 打印错误
+                      log({
+                        req: req,err: err
+                      });
                   } else {
-                      req.session.msg = '注册成功!';
-                      res.render('login', { title: '登录',msg: req.session.msg,username: uname});
+                      _render = {
+                          title: '登录',
+                          msg: '注册成功!',
+                          username: uname
+                      };
+                      res.render('login', _render);
                   }
               }
           );
       }
   });
 
-  // res.render('register', { title: uname });
-  // res.send('');
 });
-/* GET login page. */
+/* POST login page. */
 router.post('/login', function(req, res, next) {
-  req.session.msg = '';
   var User = global.dbHandel.getModel('user');
 
   // ?t=00 get参数
@@ -99,16 +145,33 @@ router.post('/login', function(req, res, next) {
 
   User.findOne({name: uname,password: upwd},function(err,doc){
       if(err){
-          req.session.msg = '登录失败 01';
-          res.render('login', { title: '登录',msg: req.session.msg,username: uname});
+          _render = {
+              title: '登录',
+              msg: '登录失败 01',
+              username: uname
+          };
+          // 打印错误
+          log({
+            req: req,err: err
+          });
+          res.render('login', _render);
       }else if(doc){
           req.session.user = doc;
+          _render = {
+              title: '首页',
+              msg: '登录成功!',
+              username: uname
+          };
           req.session.msg = '登录成功!';
-          res.render('index', { title: '首页',msg: req.session.msg,username: uname});
-          // res.render('login', { title: '登录成功 02' });
+          res.render('index', _render);
       }else{
+          _render = {
+              title: '登录',
+              msg: '登录失败 03',
+              username: uname
+          };
           req.session.msg = '登录失败 03';
-          res.render('login', { title: '登录',msg: req.session.msg,username: uname});
+          res.render('login', _render);
       }
   });
 
