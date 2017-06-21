@@ -47,3 +47,8 @@ app.use('/login', index);
 app.use('/register', index);
 
 路由 放在 session 之后 解决 req.session is undefined 问题
+
+    express 结合gulp mongodb 实现简单登录注册功能
+    增加密码加密
+    增加日志打印功能 记录 浏览器 ip 版本 上一页 等信息
+    增加 token 验证

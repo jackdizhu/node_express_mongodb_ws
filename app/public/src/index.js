@@ -3,7 +3,7 @@
 
     // import Vue for 'vue';
 
-    require('./css/base.css');
+    // require('./css/base.css');
     require('./css/IM.css');
 
     require('./html/IM.js');

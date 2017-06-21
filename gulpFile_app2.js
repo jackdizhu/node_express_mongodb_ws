@@ -32,7 +32,7 @@ var gulp = require('gulp'),
         .pipe(less())
         .pipe(minifycss())
         .pipe(sourcemaps.write('./'))
-        // .pipe(gulp.dest(basePath + 'src/css'))
+        .pipe(gulp.dest(basePath + 'src/css'))
         .pipe(gulp.dest(basePath + 'dist/css'));
-      express.run(['./app/bin/www']);
+      // express.run(['./app/bin/www']);
   },3000);

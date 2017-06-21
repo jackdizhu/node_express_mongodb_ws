@@ -48,8 +48,8 @@
                 var _data = {
                         pageCls: 'IM',
                         usernames: [
-                            'user01',
-                            'user02',
+                            {username:'user01'},
+                            {username:'user02'},
                         ],
                         me: '',
                         // username: 'user01',
@@ -107,11 +107,11 @@
                                   <div class="con bootclearfix">
                                     <div class="L" ref="L">
                                         <ul>
-                                            <li v-for="item in usernames" @click="selectUser($event);" v-if="username == item" class="selected">
-                                                <p :data-username="item">{{item}}</p>
+                                            <li v-for="item in usernames" @click="selectUser($event);" v-if="username == item.username" class="selected">
+                                                <p :data-username="item">{{item.username}}</p>
                                             </li>
                                             <li @click="selectUser($event);" v-else>
-                                                <p :data-username="item">{{item}}</p>
+                                                <p :data-username="item.username">{{item.username}}</p>
                                             </li>
                                         </ul>
                                     </div>
@@ -125,7 +125,7 @@
                                         </div>
                                         <div class="B">
                                             <textarea ref="textarea" @keyup="keyCode($event);"></textarea>
-                                            <button @click="add($event);">发送</button>
+                                            <a href="javascript:;" class="btn" @click="add($event);">发送</a>
                                         </div>
                                     </div>
                                   </div>

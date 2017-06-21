@@ -52,7 +52,7 @@ app.use(function(req,res,next){
 app.use(function(req,res,next){
     var _token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
     var path = req.originalUrl;
-    console.log(_token);
+    console.log('token: 'token.checkToken(_token));
     if(!_token || !token.checkToken(_token)){
         req.session.token = 'untoken';
         // token 验证失败 只能访问登录注册

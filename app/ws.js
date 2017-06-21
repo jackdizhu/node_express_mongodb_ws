@@ -17,7 +17,11 @@
                     var _token = token.decodeToken(_cookie.token);
                     var name = _token.payload.data.username;
                     // 记录用户名 对应 sec-websocket-key
-                    _clients[name] = WSkey;
+                    _clients[name] = {};
+                    _clients[name].WSkey = WSkey;
+                    _clients[name].user = {
+                        username: name
+                    };
 
                     // _clients.client = e.req.client;
                     // client 绑定 用户名
@@ -59,7 +63,7 @@
         var users = [];
         for (var key in _clients) {
             if(key != user){
-                users.push(key);
+                users.push(_clients[key].user);
             }
         }
         return users;
