@@ -79,7 +79,7 @@ var gulp = require('gulp'),
   });
 
   //定义默认任务
-  // gulp.task('default',['watchBuild','watchLess']);
-  gulp.task('default',['watchLess']);
+  gulp.task('default',['watchBuild','watchLess']);
+//   gulp.task('default',['watchLess']);
   gulp.run('default');
   // express.run(['./app/bin/www']);
