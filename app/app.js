@@ -16,6 +16,7 @@ var mongoose = require('mongoose');
 global.dbHandel = require('./database/dbHandel');
 global.db = mongoose.connect("mongodb://127.0.0.1:27017/nodedb");
 
+var log = require('./com/log.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,9 +53,11 @@ app.use(function(req,res,next){
 app.use(function(req,res,next){
     var _token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies.token;
     var path = req.originalUrl;
-    console.log('token: 'token.checkToken(_token));
+    req.session._render = req.session._render || {
+        istoken: false
+    };
     if(!_token || !token.checkToken(_token)){
-        req.session.token = 'untoken';
+        req.session._render.istoken = false;
         // token 验证失败 只能访问登录注册
         if ((path != "/login") && (path != "/register")) {
             res.redirect("/login");
@@ -62,6 +65,7 @@ app.use(function(req,res,next){
             next();  //中间件传递
         }
     }else{
+        req.session._render.istoken = true;
         next();  //中间件传递
     }
 
@@ -72,6 +76,7 @@ app.use('/', index);
 // app.use('/users', users);
 app.use('/login', index);
 app.use('/register', index);
+app.use('/editPwd', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

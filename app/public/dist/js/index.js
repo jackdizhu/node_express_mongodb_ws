@@ -42,7 +42,7 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 	
 	(function () {
@@ -66,9 +66,9 @@
 
 
 
-/***/ }),
+/***/ },
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
@@ -82,8 +82,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!./IM.css", function() {
-				var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!./IM.css");
+			module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./IM.css", function() {
+				var newContent = require("!!../../../../../node_modules/css-loader/index.js!./IM.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -92,23 +92,23 @@
 		module.hot.dispose(function() { update(); });
 	}
 
-/***/ }),
+/***/ },
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".IM>.con .L:after,.IM>.con .R .B:after{content:\" \";top:0;display:block;right:0}.footer p,.header p{text-align:center;font-size:18px}.header p{line-height:3rem}.IM>.con{background-color:#fff;height:500px}.IM>.con .L{position:relative;float:left;width:20%;height:100%;padding:10px}.IM>.con .L li{cursor:pointer}.IM>.con .L li p{padding:5px}.IM>.con .L li.selected{background-color:#eee}.IM>.con .L:after{position:absolute;width:1px;height:100%;background-color:#ebebeb}.IM>.con .R{position:relative;float:left;width:80%;height:100%}.IM>.con .R .B,.IM>.con .R .B:after,.IM>.con .R .T{position:absolute;width:100%}.IM>.con .R .T{left:0;top:0;bottom:80px;overflow:auto;padding:0 10px}.IM>.con .R .T li pre{padding:5px;margin:1em 0;background-color:#b4e4fc;border-radius:4px}.IM>.con .R .T li pre.left{float:left}.IM>.con .R .T li pre.right{float:right}.IM>.con .R .B{left:0;bottom:0;height:80px}.IM>.con .R .B:after{bottom:auto;height:1px;background-color:#ebebeb}.IM>.con .R .B textarea{display:block;width:100%;height:100%;border:0;padding:4px 6px;resize:none}.IM>.con .R .B .btn{position:absolute;right:0;bottom:0;width:84px;height:30px;line-height:30px;text-align:center;border:0;margin-right:5px;margin-bottom:5px;background-color:#eee;border-radius:4px}.footer p{line-height:3rem}\n/*# sourceMappingURL=IM.css.map */\n", ""]);
+	exports.push([module.id, ".IM>.con .L:after,.IM>.con .R .B:after{content:\" \";top:0;display:block;right:0}.IM>.con{background-color:#fff;height:500px}.IM>.con .L{position:relative;float:left;width:20%;height:100%;padding:10px}.IM>.con .L li{cursor:pointer}.IM>.con .L li p{padding:5px}.IM>.con .L li.selected{background-color:#eee}.IM>.con .L:after{position:absolute;width:1px;height:100%;background-color:#ebebeb}.IM>.con .R{position:relative;float:left;width:80%;height:100%}.IM>.con .R .B,.IM>.con .R .B:after,.IM>.con .R .T{position:absolute;width:100%}.IM>.con .R .T{left:0;top:0;bottom:80px;overflow:auto;padding:0 10px}.IM>.con .R .T li pre{padding:5px;margin:1em 0;background-color:#b4e4fc;border-radius:4px}.IM>.con .R .T li pre.left{float:left}.IM>.con .R .T li pre.right{float:right}.IM>.con .R .B{left:0;bottom:0;height:80px}.IM>.con .R .B:after{bottom:auto;height:1px;background-color:#ebebeb}.IM>.con .R .B textarea{display:block;width:100%;height:100%;border:0;padding:4px 6px;resize:none}.IM>.con .R .B .btn{position:absolute;right:0;bottom:0;width:84px;height:30px;line-height:30px;text-align:center;border:0;margin-right:5px;margin-bottom:5px;background-color:#eee;border-radius:4px}\n/*# sourceMappingURL=IM.css.map */\n", ""]);
 
 	// exports
 
 
-/***/ }),
+/***/ },
 /* 3 */
-/***/ (function(module, exports) {
+/***/ function(module, exports) {
 
 	/*
 		MIT License http://www.opensource.org/licenses/mit-license.php
@@ -162,9 +162,9 @@
 	};
 
 
-/***/ }),
+/***/ },
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 	/*
 		MIT License http://www.opensource.org/licenses/mit-license.php
@@ -414,9 +414,9 @@
 	}
 
 
-/***/ }),
+/***/ },
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 	(function () {
 
@@ -426,8 +426,16 @@
 	        vm: null,
 	        systemMsg: function (_data){
 	            var _vm = IM.vm;
-	            _vm.$data.usernames = _data.users;
-	            console.log(_vm.$data.usernames);
+	            _vm.$data.usernames = [];
+	            for (var key in _data.users) {
+	                if(_data.users[key].username != _data.username){
+	                    _vm.$data.usernames.push(_data.users[key]);
+	                }
+	            }
+	            // _vm.$data.usernames = _data.users;
+	            _vm.$data.thisUsername = _data.username;
+	            _vm.$data.usersLength = _data.clientsL;
+	            // console.log(_vm.$data);
 	        },
 	        addMsg: function (_data) {
 	            var username = _data.userKey;
@@ -441,6 +449,7 @@
 	            var _vm = IM.vm;
 	            var u = _vm.$data.username;
 	            var T = _data.data;
+	            _vm.$data.texts[u] = _vm.$data.texts[u] || [];
 	            _vm.$data.texts[u].push(T);
 	            _vm.$data.text = _vm.$data.texts[u];
 	            _vm.$refs.textarea.value = '';
@@ -468,87 +477,91 @@
 	                var _data = {
 	                        pageCls: 'IM',
 	                        usernames: [
-	                            {username:'user01'},
-	                            {username:'user02'},
+	                            // {username:'user01'},
+	                            // {username:'user02'},
 	                        ],
+	                        usersLength: 0,
 	                        me: '',
-	                        // username: 'user01',
-	                        username: 'user01',
+	                        thisUsername: '',
+	                        username: '',
 	                        text: [
-	                            {
-	                                txt: '撒旦法user01师号大是大非',
-	                                pull: 'left'
-	                            },
-	                            {
-	                                txt: '阿斯顿user01发水电费',
-	                                pull: 'right'
-	                            },
-	                            {
-	                                txt: '撒旦阿user01斯顿发水电费法撒旦发送到',
-	                                pull: 'left'
-	                            },
+	                            // {
+	                            //     txt: '撒旦法user01师号大是大非',
+	                            //     pull: 'left'
+	                            // },
+	                            // {
+	                            //     txt: '阿斯顿user01发水电费',
+	                            //     pull: 'right'
+	                            // },
+	                            // {
+	                            //     txt: '撒旦阿user01斯顿发水电费法撒旦发送到',
+	                            //     pull: 'left'
+	                            // },
 	                        ],
 	                        texts: {
-	                                    user01:[
-	                                        {
-	                                            txt: '撒旦法user01师号大是大非',
-	                                            pull: 'left'
-	                                        },
-	                                        {
-	                                            txt: '阿斯顿user01发水电费',
-	                                            pull: 'right'
-	                                        },
-	                                        {
-	                                            txt: '撒旦阿user01斯顿发水电费法撒旦发送到',
-	                                            pull: 'left'
-	                                        },
-	                                    ],
-	                                    user02:[
-	                                        {
-	                                            txt: '撒旦法user02师撒旦法师号大是大非号大是大非',
-	                                            pull: 'left'
-	                                        },
-	                                        {
-	                                            txt: '阿斯顿user02撒旦大非发水电费',
-	                                            pull: 'right'
-	                                        },
-	                                        {
-	                                            txt: '撒旦阿user02斯顿发水电费法撒旦发送到',
-	                                            pull: 'left'
-	                                        },
-	                                    ]
+	                                    // user01:[
+	                                    //     {
+	                                    //         txt: '撒旦法user01师号大是大非',
+	                                    //         pull: 'left'
+	                                    //     },
+	                                    //     {
+	                                    //         txt: '阿斯顿user01发水电费',
+	                                    //         pull: 'right'
+	                                    //     },
+	                                    //     {
+	                                    //         txt: '撒旦阿user01斯顿发水电费法撒旦发送到',
+	                                    //         pull: 'left'
+	                                    //     },
+	                                    // ],
+	                                    // user02:[
+	                                    //     {
+	                                    //         txt: '撒旦法user02师撒旦法师号大是大非号大是大非',
+	                                    //         pull: 'left'
+	                                    //     },
+	                                    //     {
+	                                    //         txt: '阿斯顿user02撒旦大非发水电费',
+	                                    //         pull: 'right'
+	                                    //     },
+	                                    //     {
+	                                    //         txt: '撒旦阿user02斯顿发水电费法撒旦发送到',
+	                                    //         pull: 'left'
+	                                    //     },
+	                                    // ]
 	                                },
 	                            };
 
 	                this.vm = new Vue({
 	                    el: '#app'
 	                    ,template: `
-	                                <div :class="pageCls">
-	                                  <div class="con bootclearfix">
-	                                    <div class="L" ref="L">
-	                                        <ul>
-	                                            <li v-for="item in usernames" @click="selectUser($event);" v-if="username == item.username" class="selected">
-	                                                <p :data-username="item">{{item.username}}</p>
-	                                            </li>
-	                                            <li @click="selectUser($event);" v-else>
-	                                                <p :data-username="item.username">{{item.username}}</p>
-	                                            </li>
-	                                        </ul>
-	                                    </div>
-	                                    <div class="R">
-	                                        <div class="T" ref="T">
-	                                            <ul>
-	                                                <li v-for="item in text" class="bootclearfix">
-	                                                    <pre :class="item.pull">{{item.txt}}</pre>
-	                                                </li>
-	                                            </ul>
+	                                <div>
+	                                    <h1 class="tit">欢迎: {{thisUsername}} 会员,在线人数 {{usersLength}}人</h1>
+	                                    <div :class="pageCls">
+	                                        <div class="con bootclearfix">
+	                                            <div class="L" ref="L">
+	                                                <ul>
+	                                                    <li v-for="item in usernames" @click="selectUser($event);" v-if="username == item.username" class="selected">
+	                                                        <p :data-username="item.username">{{item.username}}</p>
+	                                                    </li>
+	                                                    <li @click="selectUser($event);" v-else>
+	                                                        <p :data-username="item.username">{{item.username}}</p>
+	                                                    </li>
+	                                                </ul>
+	                                            </div>
+	                                            <div class="R">
+	                                                <div class="T" ref="T">
+	                                                    <ul>
+	                                                        <li v-for="item in text" class="bootclearfix">
+	                                                            <pre :class="item.pull">{{item.txt}}</pre>
+	                                                        </li>
+	                                                    </ul>
+	                                                </div>
+	                                                <div class="B">
+	                                                    <textarea ref="textarea" @keyup="keyCode($event);"></textarea>
+	                                                    <a href="javascript:;" class="btn" @click="add($event);">发送</a>
+	                                                </div>
+	                                            </div>
 	                                        </div>
-	                                        <div class="B">
-	                                            <textarea ref="textarea" @keyup="keyCode($event);"></textarea>
-	                                            <a href="javascript:;" class="btn" @click="add($event);">发送</a>
-	                                        </div>
 	                                    </div>
-	                                  </div>
 	                                </div>
 	                                `
 	                    ,data: function () {
@@ -646,9 +659,9 @@
 
 
 
-/***/ }),
+/***/ },
 /* 6 */
-/***/ (function(module, exports) {
+/***/ function(module, exports) {
 
 	(function () {
 	    var W;
@@ -712,5 +725,5 @@
 
 
 
-/***/ })
+/***/ }
 /******/ ]);

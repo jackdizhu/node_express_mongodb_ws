@@ -6,8 +6,16 @@
         vm: null,
         systemMsg: function (_data){
             var _vm = IM.vm;
-            _vm.$data.usernames = _data.users;
-            console.log(_vm.$data.usernames);
+            _vm.$data.usernames = [];
+            for (var key in _data.users) {
+                if(_data.users[key].username != _data.username){
+                    _vm.$data.usernames.push(_data.users[key]);
+                }
+            }
+            // _vm.$data.usernames = _data.users;
+            _vm.$data.thisUsername = _data.username;
+            _vm.$data.usersLength = _data.clientsL;
+            // console.log(_vm.$data);
         },
         addMsg: function (_data) {
             var username = _data.userKey;
@@ -21,6 +29,7 @@
             var _vm = IM.vm;
             var u = _vm.$data.username;
             var T = _data.data;
+            _vm.$data.texts[u] = _vm.$data.texts[u] || [];
             _vm.$data.texts[u].push(T);
             _vm.$data.text = _vm.$data.texts[u];
             _vm.$refs.textarea.value = '';
@@ -48,87 +57,91 @@
                 var _data = {
                         pageCls: 'IM',
                         usernames: [
-                            {username:'user01'},
-                            {username:'user02'},
+                            // {username:'user01'},
+                            // {username:'user02'},
                         ],
+                        usersLength: 0,
                         me: '',
-                        // username: 'user01',
-                        username: 'user01',
+                        thisUsername: '',
+                        username: '',
                         text: [
-                            {
-                                txt: '撒旦法user01师号大是大非',
-                                pull: 'left'
-                            },
-                            {
-                                txt: '阿斯顿user01发水电费',
-                                pull: 'right'
-                            },
-                            {
-                                txt: '撒旦阿user01斯顿发水电费法撒旦发送到',
-                                pull: 'left'
-                            },
+                            // {
+                            //     txt: '撒旦法user01师号大是大非',
+                            //     pull: 'left'
+                            // },
+                            // {
+                            //     txt: '阿斯顿user01发水电费',
+                            //     pull: 'right'
+                            // },
+                            // {
+                            //     txt: '撒旦阿user01斯顿发水电费法撒旦发送到',
+                            //     pull: 'left'
+                            // },
                         ],
                         texts: {
-                                    user01:[
-                                        {
-                                            txt: '撒旦法user01师号大是大非',
-                                            pull: 'left'
-                                        },
-                                        {
-                                            txt: '阿斯顿user01发水电费',
-                                            pull: 'right'
-                                        },
-                                        {
-                                            txt: '撒旦阿user01斯顿发水电费法撒旦发送到',
-                                            pull: 'left'
-                                        },
-                                    ],
-                                    user02:[
-                                        {
-                                            txt: '撒旦法user02师撒旦法师号大是大非号大是大非',
-                                            pull: 'left'
-                                        },
-                                        {
-                                            txt: '阿斯顿user02撒旦大非发水电费',
-                                            pull: 'right'
-                                        },
-                                        {
-                                            txt: '撒旦阿user02斯顿发水电费法撒旦发送到',
-                                            pull: 'left'
-                                        },
-                                    ]
+                                    // user01:[
+                                    //     {
+                                    //         txt: '撒旦法user01师号大是大非',
+                                    //         pull: 'left'
+                                    //     },
+                                    //     {
+                                    //         txt: '阿斯顿user01发水电费',
+                                    //         pull: 'right'
+                                    //     },
+                                    //     {
+                                    //         txt: '撒旦阿user01斯顿发水电费法撒旦发送到',
+                                    //         pull: 'left'
+                                    //     },
+                                    // ],
+                                    // user02:[
+                                    //     {
+                                    //         txt: '撒旦法user02师撒旦法师号大是大非号大是大非',
+                                    //         pull: 'left'
+                                    //     },
+                                    //     {
+                                    //         txt: '阿斯顿user02撒旦大非发水电费',
+                                    //         pull: 'right'
+                                    //     },
+                                    //     {
+                                    //         txt: '撒旦阿user02斯顿发水电费法撒旦发送到',
+                                    //         pull: 'left'
+                                    //     },
+                                    // ]
                                 },
                             };
 
                 this.vm = new Vue({
                     el: '#app'
                     ,template: `
-                                <div :class="pageCls">
-                                  <div class="con bootclearfix">
-                                    <div class="L" ref="L">
-                                        <ul>
-                                            <li v-for="item in usernames" @click="selectUser($event);" v-if="username == item.username" class="selected">
-                                                <p :data-username="item">{{item.username}}</p>
-                                            </li>
-                                            <li @click="selectUser($event);" v-else>
-                                                <p :data-username="item.username">{{item.username}}</p>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="R">
-                                        <div class="T" ref="T">
-                                            <ul>
-                                                <li v-for="item in text" class="bootclearfix">
-                                                    <pre :class="item.pull">{{item.txt}}</pre>
-                                                </li>
-                                            </ul>
+                                <div>
+                                    <h1 class="tit">欢迎: {{thisUsername}} 会员,在线人数 {{usersLength}}人</h1>
+                                    <div :class="pageCls">
+                                        <div class="con bootclearfix">
+                                            <div class="L" ref="L">
+                                                <ul>
+                                                    <li v-for="item in usernames" @click="selectUser($event);" v-if="username == item.username" class="selected">
+                                                        <p :data-username="item.username">{{item.username}}</p>
+                                                    </li>
+                                                    <li @click="selectUser($event);" v-else>
+                                                        <p :data-username="item.username">{{item.username}}</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="R">
+                                                <div class="T" ref="T">
+                                                    <ul>
+                                                        <li v-for="item in text" class="bootclearfix">
+                                                            <pre :class="item.pull">{{item.txt}}</pre>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="B">
+                                                    <textarea ref="textarea" @keyup="keyCode($event);"></textarea>
+                                                    <a href="javascript:;" class="btn" @click="add($event);">发送</a>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="B">
-                                            <textarea ref="textarea" @keyup="keyCode($event);"></textarea>
-                                            <a href="javascript:;" class="btn" @click="add($event);">发送</a>
-                                        </div>
                                     </div>
-                                  </div>
                                 </div>
                                 `
                     ,data: function () {
