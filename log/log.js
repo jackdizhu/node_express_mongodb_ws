@@ -20,3 +20,5 @@
   debug: undefined }
 [2017-06-22 18:07:17.562] [DEBUG] app - { err: { username: 'name', opwd: '111', npwd: '222', pwd2: '222' },
   debug: undefined }
+[2017-06-22 18:08:39.070] [DEBUG] app - { err: { username: 'name02', opwd: '111', npwd: '222', pwd2: '222' },
+  debug: undefined }
