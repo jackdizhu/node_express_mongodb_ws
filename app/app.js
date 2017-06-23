@@ -12,11 +12,15 @@ var app = express();
 var session = require('express-session');
 var token = require('../app/com/token.js');
 
+var log = require('./com/log.js');
+
 var mongoose = require('mongoose');
 global.dbHandel = require('./database/dbHandel');
-global.db = mongoose.connect("mongodb://127.0.0.1:27017/nodedb");
+// v3.4.5 mongodb
+global.db = mongoose.connect("mongodb://127.0.0.1:27017/nodedb",{user : "root",pass : "1234",auth : {authMechanism: 'SCRAM-SHA-1'}},function (err,data){
+    log({err: err ? err : 'mongoDB连接成功!'});
+});
 
-var log = require('./com/log.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

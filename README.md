@@ -52,3 +52,12 @@ app.use('/register', index);
     增加密码加密
     增加日志打印功能 记录 浏览器 ip 版本 上一页 等信息
     增加 token 验证
+
+mongodb 配置用户 密码 v3.4.5
+    use amin
+    db.createUser({user:'root',pwd:'1234',roles:[{role:'dbOwner',db:'nodedb'}]})
+
+    连接数据库 (没有传用户名密码 可以连接数据库 但是 不能操作)
+    global.db = mongoose.connect("mongodb://127.0.0.1:27017/nodedb",{user : "username",pass : "password",auth : {authMechanism: 'SCRAM-SHA-1'}},function (err,data){
+        log({err: err ? err : 'mongoDB连接成功!'});
+    });
